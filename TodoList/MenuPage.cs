@@ -2,6 +2,7 @@
 
 public abstract class MenuPage
 {
+    public MenuPage? Result { get; set; } = null;
     public MenuPage? Parent { get; set; }
     public List<MenuPage> ChildPages { get; set; }
     public string Title { get; set; }
@@ -10,7 +11,8 @@ public abstract class MenuPage
     {
         Title = title;
         ChildPages = new List<MenuPage>();
-        Parent = parent;
+        Result = Parent = parent;
+    
         
     }
     public void AddChildPage(MenuPage page)
@@ -19,4 +21,7 @@ public abstract class MenuPage
     }
 
     public abstract void Display();
+    public abstract void Interact();
+    
+    public abstract MenuPage Run();
 }

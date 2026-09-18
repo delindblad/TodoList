@@ -1,4 +1,6 @@
-﻿namespace TodoList;
+﻿using Microsoft.Extensions.Logging;
+
+namespace TodoList;
 
 public class SimpleChildPage : MenuPage
 {
@@ -13,5 +15,14 @@ public class SimpleChildPage : MenuPage
     {
         return;
     }
-    
+
+    public override void Interact()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override MenuPage Run()
+    {
+        throw new NotImplementedException();
+    }
 }

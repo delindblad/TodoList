@@ -5,7 +5,7 @@ public class UnitTest
     [Fact]
     public void Test1()
     {
-        var root = new TodoList.RootMenu("Main Menu");
+        var root = new TodoList.RootPage("Main Menu", null);
         var child1 = new TodoList.SimpleChildPage("Child Page 1", root);
         var child2 = new TodoList.SimpleChildPage("Child Page 2", root);
 
