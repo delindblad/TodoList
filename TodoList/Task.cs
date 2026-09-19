@@ -2,11 +2,16 @@
 
 public class Task
 {
-    string ProjectName { get; set; }
-    TaskStatus Status { get; set; }
-    DateTime DueDate { get; set; }
+    public string ProjectName { get; set; }
+    public TaskStatus Status { get; set; }
+    public DateTime DueDate { get; set; }
     
     public Task(string name, TaskStatus status, DateTime dueDate)
+    {
+        SetProperties(name, status, dueDate);
+    }
+
+    public void SetProperties(string name, TaskStatus status, DateTime dueDate)
     {
         ProjectName = name;
         Status = status;
@@ -17,6 +22,7 @@ public class Task
 public enum TaskStatus
 {
     NotStarted,
+    InProgress,
     OnHold,
     Done,
     Cancelled

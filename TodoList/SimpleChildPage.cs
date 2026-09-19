@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using MenuPageKit;
 namespace TodoList;
 
-public class SimpleChildPage : MenuPage
+public class SimpleChildPage : AbstractMenuPage
 {
 
     
-    public SimpleChildPage(string title, MenuPage? parent) : base(title, parent)
+    public SimpleChildPage(string title, AbstractMenuPage? parent) : base(title, parent)
     {
         
     }
@@ -16,12 +16,12 @@ public class SimpleChildPage : MenuPage
         return;
     }
 
-    public override void Interact()
+    public override int Interact()
     {
         throw new NotImplementedException();
     }
 
-    public override MenuPage Run()
+    public override AbstractMenuPage Run()
     {
         throw new NotImplementedException();
     }

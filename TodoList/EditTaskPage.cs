@@ -1,6 +1,26 @@
-﻿namespace TodoList;
+﻿using MenuPageKit;
 
-public class EditTaskPage
+namespace TodoList;
+
+public class EditTaskPage : AbstractMenuPage
 {
-    
+    public EditTaskPage(string title, AbstractMenuPage? parent) : base(title, parent)
+    {
+        
+    }
+
+    public override void Display()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override int Interact()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override AbstractMenuPage Run()
+    {
+        throw new NotImplementedException();
+    }
 }

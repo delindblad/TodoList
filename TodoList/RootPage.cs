@@ -1,15 +1,18 @@
-namespace TodoList;
+using System.Text.Json;
 
-public class RootPage : MenuPage
+namespace TodoList;
+using MenuPageKit;
+public class RootPage : AbstractMenuPage
 {
+    readonly TodoManager _manager;
     
 
     public RootPage(string title, TodoManager manager) : base(title, null)
     {
-        return;
+        _manager = manager;
     }
 
-    public void AddChildPage(MenuPage page, string title)
+    public void AddChildPage(AbstractMenuPage page, string title)
     {
         page.Parent = this;
         ChildPages.Add(page);
@@ -22,36 +25,59 @@ public class RootPage : MenuPage
     public override void Display()
     {
         Console.Clear();
-        Utilities.WritelnYellow($"{Title} - Submenus:");
+        Console.WriteLine($"{Title} - Select an option:");
         var i = 1;
         foreach (var page in ChildPages)
         {
-            Utilities.WritelnYellow($"({i}) {page.Title}");
+            Console.WriteLine($"({i}) {page.Title}");
             i++;
         }
-        
+
+        Console.WriteLine("");
     }
 
-    public override void Interact()
+    public override int Interact()
     {
-        Utilities.WritelnYellow("Select option:");
-        var input = Console.ReadKey();
+        Console.WriteLine("Select option:");
+        var input = Console.ReadKey().KeyChar;
+        if (input.ToString().Trim().ToLower() == "q")
+        {
+            return -1;
+        }
         try
         {
-            var n = int.Parse(input.KeyChar.ToString());
+            var n = int.Parse(input.ToString());
             Result = ChildPages[n - 1];
         }
         catch (Exception e)
         {
             Utilities.WritelnRed(e.ToString());
         }
-        return;
+
+        return 0;
     }
 
-    public override MenuPage? Run()
+    public override AbstractMenuPage? Run()
     {
         Display();
-        Interact();
+        if (Interact() == -1)
+        {
+            try
+            {
+                Console.WriteLine();
+                Utilities.WritelnGreen($"Saving to default.json");
+                string jsonString = JsonSerializer.Serialize(_manager);
+                Console.WriteLine(jsonString);
+                File.WriteAllText("default.json", jsonString);
+                Thread.Sleep(2000);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return null;
+        }
         return Result;
     }
 }

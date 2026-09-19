@@ -1,10 +1,11 @@
 ﻿using System.Text.Json;
+using MenuPageKit;
 namespace TodoList;
 
-public class ExportPage : MenuPage
+public class ExportPage : AbstractMenuPage
 {
     TodoManager manager;
-    public ExportPage(string title, MenuPage? parent, TodoManager m) : base(title, parent)
+    public ExportPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
         manager = m;
     }
@@ -15,7 +16,7 @@ public class ExportPage : MenuPage
         Console.WriteLine("Export - (Esc to cancel)");
     }
 
-    public override void Interact()
+    public override int Interact()
     {   
         try
         {
@@ -23,12 +24,10 @@ public class ExportPage : MenuPage
             var fileName = Console.ReadLine() ?? "";
             if (fileName.Trim().ToLower() == "q")
             {
-                return;
+                return -1;
             }
             SaveFile(fileName);
-            Utilities.WriteYellow("Press any key to continue...");
-            Console.ReadKey();
-            
+            return 0;
         }
         catch (Exception e)
         {
@@ -39,21 +38,40 @@ public class ExportPage : MenuPage
         
     }
 
-    public override MenuPage Run()
+    public override AbstractMenuPage Run()
     {
         Display();
-        Interact();
-        return Result;
+        var i = Interact();
+        if (i == -1)
+        {
+            return Result;
+        }
+        if (i == 0)
+        {
+            Utilities.WriteYellow("Press any key to continue...");
+            Console.ReadKey();
+            return Result;
+        }
+        return this;
     }
     
     void SaveFile(string fileName)
     {
-        if (fileName.Trim() == "")
+
+        try
         {
-            fileName = "default.json";
+            if (fileName.Trim() == "")
+            {
+                fileName = "default.json";
+            }
+            Utilities.WritelnGreen($"Saving to {fileName}");
+            string jsonString = JsonSerializer.Serialize(manager);
+            File.WriteAllText(fileName, jsonString);
         }
-        Utilities.WritelnGreen($"Saving to {fileName}");
-        string jsonString = JsonSerializer.Serialize(manager);
-        File.WriteAllText(fileName, jsonString);
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Text.Json;
+using MenuPageKit;
 namespace TodoList;
 
-public class LoadPage : MenuPage
+public class LoadPage : AbstractMenuPage
 {
     TodoManager manager;
-    public LoadPage(string title, MenuPage? parent, TodoManager m) : base(title, parent)
+    public LoadPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
         manager = m;
     }
@@ -15,7 +16,7 @@ public class LoadPage : MenuPage
         Console.WriteLine("Load from file, (Esc to cancel)");
     }
 
-    public override void Interact()
+    public override int Interact()
     {   
         try
         {
@@ -23,12 +24,13 @@ public class LoadPage : MenuPage
             var fileName = Console.ReadLine() ?? "";
             if (fileName.Trim().ToLower() == "q")
             {
-                return;
+                return 0;
             }
             LoadFile(fileName);
             Utilities.WriteYellow("Press any key to continue...");
             Console.ReadKey();
-            
+            return 0;
+
         }
         catch (Exception e)
         {
@@ -39,7 +41,7 @@ public class LoadPage : MenuPage
         
     }
 
-    public override MenuPage Run()
+    public override AbstractMenuPage Run()
     {
         Display();
         Interact();
