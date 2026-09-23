@@ -1,15 +1,18 @@
 using System.Text.Json;
-
 namespace TodoList;
 using MenuPageKit;
 public class RootPage : AbstractMenuPage
 {
-    readonly TodoManager _manager;
+    private TodoManager _manager;
     
 
-    public RootPage(string title, TodoManager manager) : base(title, null)
+    public RootPage(string title, TodoManager manager, AbstractMenuPage parent) : base(title, parent)
     {
         _manager = manager;
+        Parent = parent;
+        //InitManager();
+        
+        
     }
 
     public void AddChildPage(AbstractMenuPage page, string title)
@@ -17,14 +20,14 @@ public class RootPage : AbstractMenuPage
         page.Parent = this;
         ChildPages.Add(page);
 
+
     }
-    
- 
 
 
-    public override void Display()
+    public override void OnLoad()
     {
-        Console.Clear();
+
+        base.OnLoad();
         Console.WriteLine($"{Title} - Select an option:");
         var i = 1;
         foreach (var page in ChildPages)
@@ -47,7 +50,7 @@ public class RootPage : AbstractMenuPage
         try
         {
             var n = int.Parse(input.ToString());
-            Result = ChildPages[n - 1];
+            Context = ChildPages[n - 1];
         }
         catch (Exception e)
         {
@@ -59,25 +62,40 @@ public class RootPage : AbstractMenuPage
 
     public override AbstractMenuPage? Run()
     {
-        Display();
         if (Interact() == -1)
         {
-            try
+            return Parent;
+        }
+        return Context;
+    }
+
+    public void InitManager()
+    {
+
+        //See if there's a default.json file
+        try
+        {
+            if (File.Exists("default.json"))
             {
-                Console.WriteLine();
-                Utilities.WritelnGreen($"Saving to default.json");
-                string jsonString = JsonSerializer.Serialize(_manager);
-                Console.WriteLine(jsonString);
-                File.WriteAllText("default.json", jsonString);
+                Utilities.WritelnGreen($"Loading from default.json");
+                
+                string jsonString = File.ReadAllText("default.json");
+                //Console.WriteLine(jsonString);
+                _manager = JsonSerializer.Deserialize<TodoManager>(jsonString)!;
+                
                 Thread.Sleep(2000);
             }
-            catch (Exception e)
+            //If not create a new one
+            else
             {
-                Console.WriteLine(e);
-                throw;
+                _manager = new TodoManager();
             }
-            return null;
+
         }
-        return Result;
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

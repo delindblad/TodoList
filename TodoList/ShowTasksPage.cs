@@ -4,29 +4,33 @@ namespace TodoList;
 
 public class ShowTasksPage : AbstractMenuPage
 {
-    TodoManager manager;
-    private bool showByDate = false;
+    private readonly TodoManager _manager;
+    private int _showBy = 0;
     public ShowTasksPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
-        manager = m;
+        _manager = m;
     }
 
-    public override void Display()
+    public override void OnLoad()
     {
-        Console.Clear();
+        base.OnLoad();
         Console.WriteLine("-------------------------------------");
         Console.WriteLine("Todo List - See display options below");
         Console.WriteLine("-------------------------------------");
         Console.WriteLine();
-        Console.WriteLine("Type 'D' - to sort by date, 'N' - to sort by name, 'Q' - to quit");
+        Console.WriteLine("Type 'D' - to sort by date, 'N' - to sort by name, 'I' to sort by index, 'Q' - to quit");
         Console.WriteLine();
-        if (showByDate)
+        if (_showBy == 0)
         {
-            manager.ShowByDate();
+            _manager.PrintByDate();
         }
-        else
+        else if (_showBy == 1)
         {
-            manager.ShowByName();
+            _manager.PrintByName();
+        }
+        else if (_showBy == 2)
+        {
+            _manager.PrintByIndex();
         }
         
 
@@ -47,7 +51,10 @@ public class ShowTasksPage : AbstractMenuPage
         {
             return 2;
         }
-        else
+        else if (key == 'I' || key == 'i')
+        {
+            return 3;
+        }
         {
             return -1;
         }
@@ -58,25 +65,35 @@ public class ShowTasksPage : AbstractMenuPage
     {
         while (true)
         {
-            Display();
+
             var i = Interact();
             switch (i)
             {
                 case -1:
                     continue;
                 case 1:
-                    showByDate = true;
+                    _showBy = 0;
+                    Context = this;
+                    goto exit;
                     break;
                 case 2:
-                    showByDate = false;
+                    _showBy = 1;
+                    Context = this;
+                    goto exit;
+                    break;
+                case 3:
+                    _showBy = 2;
+                    Context = this;
+                    goto exit;
                     break;
                 case 0:
+                    Context = Parent;
                     goto exit;
             }
             
 
         }
         exit:
-        return Result;
+        return Context;
     }
 }

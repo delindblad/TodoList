@@ -13,7 +13,7 @@ public static class Program
     {
         //Create logger
         ILogger logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("Main");
-        //Init manager
+        //Initiate manager
         InitManager();
         Run();
         
@@ -24,47 +24,35 @@ public static class Program
     }
     
     public static void Run()
+
     {
-        var root = new RootPage("Todo List Manager", manager);
+        ExitPage exitPage = new ExitPage("Exit", null, manager);
+        var root = new RootPage("Todo List Manager", manager, exitPage);
         root.AddChildPage(new ShowTasksPage("Show tasks", root, manager));
         root.AddChildPage(new AddTaskPage("Add task", root, manager));
-        root.AddChildPage(new LoadPage("Load from file", root, manager));
+        root.AddChildPage(new ImportPage("Load from file", root, manager));
         root.AddChildPage(new ExportPage("Export to file", root, manager));
         //logger.LogInformation("Added simple child pages");
-        AbstractMenuPage? context = root;
-        while (true)
-        {
-            context = context.Run();
-            if (context == null!)
-            {
-                return;
-            }
-        }
+        
+        AbstractMenuPage.RunEntryPoint(root);
 
-        AbstractMenuPage? p = root.Run();
-        if (p == null)
-        {
-            return;
-        }
-        else
-        {
-            p.Run().Run();
-        }
+
+  
     }
 
 
     public static void Test()
     {
 
-        manager.AddItem("Cleaning", TaskStatus.InProgress, DateTime.Parse("2026-10-01"));
-        manager.AddItem("Laundry", TaskStatus.Done, DateTime.Parse("2026-11-07"));
-        manager.AddItem("Groceries", TaskStatus.Cancelled, DateTime.Parse("2026-12-13"));
-        manager.AddItem("Groceries", TaskStatus.InProgress, DateTime.Parse("2027-01-31"));
+        manager.AddItem("Cleaning", DateTime.Parse("2026-10-01"));
+        manager.AddItem("Laundry" , DateTime.Parse("2026-11-07"));
+        manager.AddItem("Groceries", DateTime.Parse("2026-12-13"));
+        manager.AddItem("Groceries", DateTime.Parse("2027-01-31"));
         Console.ForegroundColor = ConsoleColor.Yellow;
-        manager.ShowByName();
+        manager.PrintByName();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("");
-        manager.ShowByDate();
+        manager.PrintByDate();
         Console.WriteLine("");
         Console.ForegroundColor = ConsoleColor.Cyan;
         manager.PrintByIndex();
@@ -81,9 +69,11 @@ public static class Program
             if (File.Exists("default.json"))
             {
                 Utilities.WritelnGreen($"Loading from default.json");
+                
                 string jsonString = File.ReadAllText("default.json");
-                Console.WriteLine(jsonString);
+                //Console.WriteLine(jsonString);
                 manager = JsonSerializer.Deserialize<TodoManager>(jsonString)!;
+                
                 Thread.Sleep(2000);
             }
             //If not create a new one

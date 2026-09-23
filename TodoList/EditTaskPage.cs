@@ -9,7 +9,7 @@ public class EditTaskPage : AbstractMenuPage
         
     }
 
-    public override void Display()
+    public override void OnLoad()
     {
         throw new NotImplementedException();
     }

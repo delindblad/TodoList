@@ -2,7 +2,7 @@
 
 public abstract class AbstractMenuPage
 {
-    public AbstractMenuPage? Result { get; set; } = null;
+    public AbstractMenuPage? Context { get; set; } = null;
     public AbstractMenuPage? Parent { get; set; }
     public List<AbstractMenuPage> ChildPages { get; set; }
     public string Title { get; set; }
@@ -11,16 +11,35 @@ public abstract class AbstractMenuPage
     {
         Title = title;
         ChildPages = new List<AbstractMenuPage>();
-        Result = Parent = parent;
-    
-        
+        Context = Parent = parent;
     }
+
     public void AddChildPage(AbstractMenuPage page)
     {
+        page.Parent = this;
         ChildPages.Add(page);
     }
 
-    public abstract void Display();
+    public virtual void OnLoad()
+    {
+        Console.Clear();
+    }
+
     public abstract int Interact();
+ 
     public abstract AbstractMenuPage Run();
+    
+    public static void RunEntryPoint(AbstractMenuPage entryPoint)
+    {
+        AbstractMenuPage context = entryPoint;
+        while (context != null)
+        {
+            context.OnLoad();
+            context = context.Run();
+            if (context == null!)
+            {
+                return;
+            }
+        }
+    }
 }

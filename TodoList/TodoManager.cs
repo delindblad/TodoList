@@ -10,11 +10,14 @@ public class TodoManager
 
     public TodoManager()
     {
-        TodoItems = new List<Task>();
-    }
-    public void AddItem(string name, TaskStatus status, DateTime dueDate)
+        TodoItems = new();
+        
+    }   
+    
+    public void AddItem(string name,  DateTime dueDate)
     {
-        TodoItems.Add(new Task(name, status, dueDate));
+        //TodoItems.Add(new Task(name, dueDate, false));
+        TodoItems.Add(new Task(name, dueDate));
     }
 
     public void RemoveItem(int index)
@@ -29,7 +32,7 @@ public class TodoManager
         }
     }
 
-    public void ShowByName()
+    public void PrintByName()
     {
         var data = TodoItems.AsEnumerable();
         var sortedData = 
@@ -43,7 +46,7 @@ public class TodoManager
 
     
 
-    public void ShowByDate()
+    public void PrintByDate()
     {
         var data = TodoItems.AsEnumerable();
         var sortedData = 
@@ -62,24 +65,52 @@ public class TodoManager
     
     private void PrintData(IEnumerable<Task> d)
     {
-        Console.WriteLine("{0,-20} | {1,-15} | {2,-15}", "Name", "Status", "DueDate");
+        Console.WriteLine("{0,-20} | {1,-15} | {2,-15}", "Name", "DueDate", "Status");
         Console.WriteLine("-----------------------------------------------------------");
+        string status = "Not done";
         foreach (var item in d)
         {
+            if (item.IsDone)
+            {
+                status = "Done";
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                status = "Not done";
+            }
 
-            Console.WriteLine("{0,-20} | {1,-15} | {2,-15}", item.ProjectName, item.Status, item.DueDate);
+            Console.WriteLine("{0,-20} | {1,-15} | {2,-15}", item.ProjectName, item.DueDate, status);
+            Console.ResetColor();
+
 
         }
     }
     
     public void PrintByIndex()
     {
-        Console.WriteLine("{0,-15} | {1,-20} | {2,-15} | {3,-15}", "Index", "Name", "Status", "DueDate");
+        Console.WriteLine("{0,-15} | {1,-20} | {2,-15} | {3,-15}", "Index", "Name", "Due date m", "Status");
         Console.WriteLine("----------------------------------------------------------------------------");
+        string status = "Not done";
+        
         foreach (var item in TodoItems)
         {
+            if (item.IsDone)
+            {
+                status = "Done";
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                status = "Not done" + "😰";
+            }
 
-            Console.WriteLine("{0,-15} | {1,-20} | {2,-15} | {3,-15}", TodoItems.IndexOf(item), item.ProjectName, item.Status, item.DueDate);
+            Console.WriteLine("{0,-15} | {1,-20} | {2,-15} | {3,-15}", TodoItems.IndexOf(item), item.ProjectName,
+                item.DueDate.ToShortDateString(), status);
+
+            Console.ResetColor();
+
 
         }
     }

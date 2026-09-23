@@ -2,28 +2,18 @@
 
 public class Task
 {
+    public bool IsDone { get; set; }
     public string ProjectName { get; set; }
-    public TaskStatus Status { get; set; }
     public DateTime DueDate { get; set; }
     
-    public Task(string name, TaskStatus status, DateTime dueDate)
+    public Task(string projectName, DateTime dueDate)
     {
-        SetProperties(name, status, dueDate);
-    }
-
-    public void SetProperties(string name, TaskStatus status, DateTime dueDate)
-    {
-        ProjectName = name;
-        Status = status;
         DueDate = dueDate;
+        ProjectName = projectName;
+        IsDone = false;
     }
+
+    
 }
 
-public enum TaskStatus
-{
-    NotStarted,
-    InProgress,
-    OnHold,
-    Done,
-    Cancelled
-}
+

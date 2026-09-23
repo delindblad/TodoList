@@ -10,7 +10,7 @@ public class ExportPage : AbstractMenuPage
         manager = m;
     }
 
-    public override void Display()
+    public override void OnLoad()
     {
         Console.Clear();
         Console.WriteLine("Export - (Esc to cancel)");
@@ -40,17 +40,16 @@ public class ExportPage : AbstractMenuPage
 
     public override AbstractMenuPage Run()
     {
-        Display();
         var i = Interact();
         if (i == -1)
         {
-            return Result;
+            return Context;
         }
         if (i == 0)
         {
             Utilities.WriteYellow("Press any key to continue...");
             Console.ReadKey();
-            return Result;
+            return Context;
         }
         return this;
     }

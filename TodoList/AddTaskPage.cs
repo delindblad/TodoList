@@ -4,15 +4,15 @@ namespace TodoList;
 
 public class AddTaskPage : AbstractMenuPage
 {
-    TodoManager manager;
+    private readonly TodoManager _manager;
     public AddTaskPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
-        manager = m;
+        _manager = m;
     }
 
-    public override void Display()
+    public override void OnLoad()
     {
-        Console.Clear();
+        base.OnLoad();
         Console.WriteLine("--------------------------------------------------------------------------------");
         Console.WriteLine("Todo List - Follow the instructions to add a task, 'Q' on an empty line to quit.");
         Console.WriteLine("--------------------------------------------------------------------------------");
@@ -34,27 +34,7 @@ public class AddTaskPage : AbstractMenuPage
             return -1;
         }
         
-        // Get initial status
-        var statusString = "";
-        do
-        {
-            Console.Write("Initial status, (0) In progress, (1) Not Started:");
-            statusString = Console.ReadLine()?.Trim() ?? "";
-        }
-        while (statusString != "0" && statusString != "1" && statusString != "Q");
         
-        if (statusString == "0")
-        {
-            taskStatus = TaskStatus.InProgress;
-        }
-        else if (statusString == "1")
-        {
-            taskStatus = TaskStatus.NotStarted;
-        }
-        else
-        {
-            return -1;
-        }
         
         // Get date
         string dateString = "";
@@ -68,9 +48,9 @@ public class AddTaskPage : AbstractMenuPage
             }
         }
         // Add new task
-        manager.AddItem(taskName, taskStatus, taskDueDate);
+        _manager.AddItem(taskName, taskDueDate);
         Utilities.WritelnGreen("Added the following:");
-        Console.WriteLine("{0,-20} | {1,-15} | {2,-15}", taskName, taskStatus, taskDueDate);
+        Console.WriteLine("{0,-20} | {1,-15}", taskName, taskDueDate);
         Thread.Sleep(2000);
         return 0;
         
@@ -80,13 +60,13 @@ public class AddTaskPage : AbstractMenuPage
     {
         while (true)
         {
-            Display();
+            OnLoad();
             var i = Interact();
             if (i == -1)
             {
                 break;
             }
         }
-        return Result;
+        return Context;
     }
 }

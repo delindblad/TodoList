@@ -2,15 +2,15 @@
 using MenuPageKit;
 namespace TodoList;
 
-public class LoadPage : AbstractMenuPage
+public class ImportPage : AbstractMenuPage
 {
     TodoManager manager;
-    public LoadPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
+    public ImportPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
         manager = m;
     }
 
-    public override void Display()
+    public override void OnLoad()
     {
         Console.Clear();
         Console.WriteLine("Load from file, (Esc to cancel)");
@@ -43,9 +43,9 @@ public class LoadPage : AbstractMenuPage
 
     public override AbstractMenuPage Run()
     {
-        Display();
+
         Interact();
-        return Result;
+        return Context;
     }
     
 
