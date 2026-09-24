@@ -50,7 +50,7 @@ public class RootPage : AbstractMenuPage
         try
         {
             var n = int.Parse(input.ToString());
-            Context = ChildPages[n - 1];
+            PageContext = ChildPages[n - 1];
         }
         catch (Exception e)
         {
@@ -66,7 +66,7 @@ public class RootPage : AbstractMenuPage
         {
             return Parent;
         }
-        return Context;
+        return PageContext;
     }
 
     public void InitManager()

@@ -30,6 +30,7 @@ public static class Program
         var root = new RootPage("Todo List Manager", manager, exitPage);
         root.AddChildPage(new ShowTasksPage("Show tasks", root, manager));
         root.AddChildPage(new AddTaskPage("Add task", root, manager));
+        root.AddChildPage(new EditTaskPage("Edit task", root, manager));
         root.AddChildPage(new ImportPage("Load from file", root, manager));
         root.AddChildPage(new ExportPage("Export to file", root, manager));
         //logger.LogInformation("Added simple child pages");

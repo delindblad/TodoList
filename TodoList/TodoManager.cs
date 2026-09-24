@@ -20,7 +20,7 @@ public class TodoManager
         TodoItems.Add(new Task(name, dueDate));
     }
 
-    public void RemoveItem(int index)
+    public void DeleteItem(int index)
     {
         try
         {
@@ -30,6 +30,11 @@ public class TodoManager
         {
             Console.WriteLine("No such item");
         }
+    }
+
+    public void ToggleItem(int index)
+    {
+        TodoItems[index].IsDone = !TodoItems[index].IsDone;
     }
 
     public void PrintByName()

@@ -6,6 +6,7 @@ public class ShowTasksPage : AbstractMenuPage
 {
     private readonly TodoManager _manager;
     private int _showBy = 0;
+
     public ShowTasksPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
     {
         _manager = m;
@@ -15,10 +16,10 @@ public class ShowTasksPage : AbstractMenuPage
     {
         base.OnLoad();
         Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Todo List - See display options below");
+        Console.WriteLine("TO DO LIST - SEE DISPLAY OPTIONS BELOW");
         Console.WriteLine("-------------------------------------");
         Console.WriteLine();
-        Console.WriteLine("Type 'D' - to sort by date, 'N' - to sort by name, 'I' to sort by index, 'Q' - to quit");
+    Console.WriteLine("TYPE 'D' - TO SORT BY DATE, 'N' - TO SORT BY NAME, 'I' TO SORT BY INDEX, 'Q' - TO QUIT");
         Console.WriteLine();
         if (_showBy == 0)
         {
@@ -32,8 +33,6 @@ public class ShowTasksPage : AbstractMenuPage
         {
             _manager.PrintByIndex();
         }
-        
-
     }
 
     public override int Interact()
@@ -55,17 +54,16 @@ public class ShowTasksPage : AbstractMenuPage
         {
             return 3;
         }
+
         {
             return -1;
         }
-        
     }
 
     public override AbstractMenuPage Run()
     {
         while (true)
         {
-
             var i = Interact();
             switch (i)
             {
@@ -73,27 +71,28 @@ public class ShowTasksPage : AbstractMenuPage
                     continue;
                 case 1:
                     _showBy = 0;
-                    Context = this;
+                    PageContext = this;
                     goto exit;
                     break;
                 case 2:
                     _showBy = 1;
-                    Context = this;
+                    PageContext = this;
                     goto exit;
                     break;
                 case 3:
                     _showBy = 2;
-                    Context = this;
+                    PageContext = this;
                     goto exit;
                     break;
                 case 0:
-                    Context = Parent;
+                    PageContext = Parent;
                     goto exit;
             }
-            
-
         }
+
         exit:
-        return Context;
+        return PageContext;
     }
+
+    
 }

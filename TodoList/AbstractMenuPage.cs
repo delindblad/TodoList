@@ -2,7 +2,7 @@
 
 public abstract class AbstractMenuPage
 {
-    public AbstractMenuPage? Context { get; set; } = null;
+    public AbstractMenuPage? PageContext { get; set; } = null;
     public AbstractMenuPage? Parent { get; set; }
     public List<AbstractMenuPage> ChildPages { get; set; }
     public string Title { get; set; }
@@ -11,7 +11,7 @@ public abstract class AbstractMenuPage
     {
         Title = title;
         ChildPages = new List<AbstractMenuPage>();
-        Context = Parent = parent;
+        PageContext = Parent = parent;
     }
 
     public void AddChildPage(AbstractMenuPage page)
@@ -28,10 +28,41 @@ public abstract class AbstractMenuPage
     public abstract int Interact();
  
     public abstract AbstractMenuPage Run();
-    
-    public static void RunEntryPoint(AbstractMenuPage entryPoint)
+
+    protected string AskQuestion(string question, string errorMessage)
     {
-        AbstractMenuPage context = entryPoint;
+        string? answer;
+        do
+        {
+            Console.WriteLine(question);
+            answer = Console.ReadLine();
+            if (!string.IsNullOrEmpty(answer)) return answer;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorMessage);
+            Console.ResetColor();
+            Console.Beep();
+        } while (true);
+    }
+    
+    protected int AskQuestionInt(string question, string errorMessage)
+    {
+        string? answer;
+        int intAnswer;
+        do
+        {
+            Console.WriteLine(question);
+            answer = Console.ReadLine();
+            if (int.TryParse(answer, out intAnswer)) return intAnswer;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorMessage);
+            Console.ResetColor();
+            Console.Beep();
+        } while (true);
+    }
+    
+    public static void RunEntryPoint(AbstractMenuPage? entryPoint)
+    {
+        AbstractMenuPage? context = entryPoint;
         while (context != null)
         {
             context.OnLoad();

@@ -18,7 +18,7 @@ public class ExitPage : AbstractMenuPage
 
     public override int Interact()
     {
-        throw new NotImplementedException();
+        return 0;
     }
 
     public override AbstractMenuPage Run()

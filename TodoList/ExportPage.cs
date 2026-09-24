@@ -43,13 +43,13 @@ public class ExportPage : AbstractMenuPage
         var i = Interact();
         if (i == -1)
         {
-            return Context;
+            return PageContext;
         }
         if (i == 0)
         {
             Utilities.WriteYellow("Press any key to continue...");
             Console.ReadKey();
-            return Context;
+            return PageContext;
         }
         return this;
     }
