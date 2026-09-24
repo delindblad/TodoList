@@ -131,7 +131,7 @@ public class TodoManager
     {
         Console.WriteLine("|{0,-15} | {1,-20} | {2,-15} | {3,-15}|", "Index", "Name", "Due date", "Status");
         Console.WriteLine("----------------------------------------------------------------------------");
-        string status = "";
+        string status = ""
         
         foreach (var item in TodoItems)
         {
@@ -147,7 +147,7 @@ public class TodoManager
                     Console.ForegroundColor = ConsoleColor.Red;
                     status = "Not done... 🥶";
                 }
-                else if (item.DueDate.CompareTo(DateTime.Now.AddDays(12)) < 1 )
+                else if (item.DueDate.CompareTo(DateTime.Now.AddDays(2)) < 1 )
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     status = "Not done... 😱";
