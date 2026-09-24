@@ -109,7 +109,7 @@ public class TodoManager
                     Console.ForegroundColor = ConsoleColor.Red;
                     status = "Not done... 🥶";
                 }
-                else if (item.DueDate.CompareTo(DateTime.Now.AddDays(12)) < 1 )
+                else if (item.DueDate.CompareTo(DateTime.Now.AddDays(2)) < 1 )
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     status = "Not done... 😱";
