@@ -62,7 +62,6 @@ public class RootPage : AbstractMenuPage
             //If the input is invalid, we just run this page again
             PageContext = this;
         }
-
         return 0;
     }
     //Runs the page

@@ -5,11 +5,11 @@ public class Task
 {
     //Properties
     public bool IsDone { get; set; }
-    public string ProjectName { get; set; }
+    public string? ProjectName { get; set; }
     public DateTime DueDate { get; set; }
     
     //Constructor
-    public Task(string projectName, DateTime dueDate)
+    public Task(string? projectName, DateTime dueDate)
     {
         DueDate = dueDate;
         ProjectName = projectName;

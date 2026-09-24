@@ -21,7 +21,7 @@ public class TodoManager
         TodoItems.Add(new Task(name, dueDate));
     }
     //Updates a task in the list
-    public void UpdateItem(Task item, string name, DateTime dueDate, int index)
+    public void UpdateItem(Task item, string? name, DateTime dueDate, int index)
     {  
         item.ProjectName = name;
         item.DueDate = dueDate;

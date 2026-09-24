@@ -4,7 +4,7 @@ namespace TodoList;
 
 public class ShowTasksPage : AbstractMenuPage
 {
-    private readonly TodoManager _manager;
+    private readonly TodoManager? _manager;
     private int _showBy = 0;
 
     //Constructor
@@ -25,15 +25,15 @@ public class ShowTasksPage : AbstractMenuPage
         //Prints the tasks in different orders depending on user input
         if (_showBy == 0)
         {
-            _manager.PrintByDate();
+            _manager?.PrintByDate();
         }
         else if (_showBy == 1)
         {
-            _manager.PrintByName();
+            _manager?.PrintByName();
         }
         else if (_showBy == 2)
         {
-            _manager.PrintByIndex();
+            _manager?.PrintByIndex();
         }
     }
     //Handles user input
@@ -76,17 +76,14 @@ public class ShowTasksPage : AbstractMenuPage
                     _showBy = 0;
                     PageContext = this;
                     goto exit;
-                    break;
                 case 2:
                     _showBy = 1;
                     PageContext = this;
                     goto exit;
-                    break;
                 case 3:
                     _showBy = 2;
                     PageContext = this;
                     goto exit;
-                    break;
                 case 0:
                     PageContext = Parent;
                     goto exit;

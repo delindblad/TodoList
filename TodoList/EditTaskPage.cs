@@ -185,7 +185,7 @@ public class EditTaskPage : AbstractMenuPage
         }
         //Gets the current info
         string? taskName = _manager?.GetItem(index).ProjectName;
-        DateTime taskDueDate = _manager.GetItem(index).DueDate;
+        DateTime taskDueDate = _manager!.GetItem(index).DueDate;
         string taskStatus = _manager.GetItem(index).IsDone ? "Done!" : "Not done...";
         Utilities.WritelnGreen("Current info:");
         Console.WriteLine("|{0,-20} | {1,-15} | {2, -15}|", taskName, taskDueDate.ToShortDateString(), taskStatus);

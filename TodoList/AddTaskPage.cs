@@ -5,7 +5,7 @@ namespace TodoList;
 
 public class AddTaskPage : AbstractMenuPage
 {
-    private readonly TodoManager _manager;
+    private readonly TodoManager? _manager;
     public AddTaskPage(string title, AbstractMenuPage? parent, TodoManager? m) : base(title, parent)
     {
         _manager = m;
@@ -44,7 +44,7 @@ public class AddTaskPage : AbstractMenuPage
     private int DoAdd()
     {
         string? taskName;
-        TaskStatus taskStatus;
+
         DateTime taskDueDate;
         do
         {
@@ -81,7 +81,7 @@ public class AddTaskPage : AbstractMenuPage
             if (dateString == "")
             {
                 taskDueDate = DateTime.Now.AddDays(7);
-                _manager.AddItem(taskName, taskDueDate);
+                _manager?.AddItem(taskName, taskDueDate);
                 Utilities.WritelnGreen("Added the following:");
                 Console.WriteLine("|{0,-20} | {1,-15}|", taskName, taskDueDate.ToShortDateString());
                 Thread.Sleep(2000);
@@ -90,7 +90,7 @@ public class AddTaskPage : AbstractMenuPage
         } while (!DateTime.TryParse(dateString, out taskDueDate));
         
         //Add new task
-        _manager.AddItem(taskName, taskDueDate);
+        _manager?.AddItem(taskName, taskDueDate);
         Utilities.WritelnGreen("Added the following:");
         Console.WriteLine("|{0,-20} | {1,-15}|", taskName, taskDueDate.ToShortDateString());
         Thread.Sleep(2000);
