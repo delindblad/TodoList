@@ -1,5 +1,6 @@
 ﻿namespace TodoList;
 
+//Utility methods used for displaying messages
 public static class Utilities
 {
     public static void WriteLineWithColor(string s, ConsoleColor color)

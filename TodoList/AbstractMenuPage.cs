@@ -26,8 +26,8 @@ public abstract class AbstractMenuPage
     }
 
     public abstract int Interact();
- 
-    public abstract AbstractMenuPage Run();
+
+    protected abstract AbstractMenuPage? Run();
 
     protected string AskQuestion(string question, string errorMessage)
     {

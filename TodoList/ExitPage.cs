@@ -3,10 +3,11 @@ using MenuPageKit;
 
 namespace TodoList;
 
+//Page saves and exits the program when loaded
 public class ExitPage : AbstractMenuPage
 {
-    readonly TodoManager _manager;
-    public ExitPage(string title, AbstractMenuPage? parent, TodoManager manager) : base(title, parent)
+    readonly TodoManager? _manager;
+    public ExitPage(string title, AbstractMenuPage? parent, TodoManager? manager) : base(title, parent)
     {
         _manager = manager;
     }
@@ -21,9 +22,10 @@ public class ExitPage : AbstractMenuPage
         return 0;
     }
 
-    public override AbstractMenuPage Run()
+    protected override AbstractMenuPage Run()
     {
         try
+        //Save to file
         {
             Utilities.WritelnGreen($"Saving to default.json");
             string jsonString = JsonSerializer.Serialize(_manager);

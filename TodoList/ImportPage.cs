@@ -2,18 +2,19 @@
 using MenuPageKit;
 namespace TodoList;
 
+//Page for importing from .json file
 public class ImportPage : AbstractMenuPage
 {
-    TodoManager manager;
-    public ImportPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
+    TodoManager? _manager;
+    public ImportPage(string title, AbstractMenuPage? parent, TodoManager? m) : base(title, parent)
     {
-        manager = m;
+        _manager = m;
     }
 
     public override void OnLoad()
     {
         Console.Clear();
-        Console.WriteLine("Load from file, (Esc to cancel)");
+        Console.WriteLine("Import from file, ('Q' to cancel)");
     }
 
     public override int Interact()
@@ -41,7 +42,7 @@ public class ImportPage : AbstractMenuPage
         
     }
 
-    public override AbstractMenuPage Run()
+    protected override AbstractMenuPage? Run()
     {
 
         Interact();
@@ -49,7 +50,7 @@ public class ImportPage : AbstractMenuPage
     }
     
 
-    
+    //Loads from .json file
     void LoadFile(string fileName)
     {
         if (fileName.Trim() == "")
@@ -61,7 +62,7 @@ public class ImportPage : AbstractMenuPage
         {
             Utilities.WritelnGreen($"Loading from {fileName}");
             string jsonString = File.ReadAllText(fileName);
-            manager = JsonSerializer.Deserialize<TodoManager>(jsonString)!;
+            _manager = JsonSerializer.Deserialize<TodoManager>(jsonString)!;
         }
     }
 }

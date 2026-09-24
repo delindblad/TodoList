@@ -7,7 +7,8 @@ public class ShowTasksPage : AbstractMenuPage
     private readonly TodoManager _manager;
     private int _showBy = 0;
 
-    public ShowTasksPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
+    //Constructor
+    public ShowTasksPage(string title, AbstractMenuPage? parent, TodoManager? m) : base(title, parent)
     {
         _manager = m;
     }
@@ -21,6 +22,7 @@ public class ShowTasksPage : AbstractMenuPage
         Console.WriteLine();
     Console.WriteLine("TYPE 'D' - TO SORT BY DATE, 'N' - TO SORT BY NAME, 'I' TO SORT BY INDEX, 'Q' - TO QUIT");
         Console.WriteLine();
+        //Prints the tasks in different orders depending on user input
         if (_showBy == 0)
         {
             _manager.PrintByDate();
@@ -34,7 +36,7 @@ public class ShowTasksPage : AbstractMenuPage
             _manager.PrintByIndex();
         }
     }
-
+    //Handles user input
     public override int Interact()
     {
         var key = Console.ReadKey().KeyChar;
@@ -59,11 +61,12 @@ public class ShowTasksPage : AbstractMenuPage
             return -1;
         }
     }
-
-    public override AbstractMenuPage Run()
+    //Runs the page
+    protected override AbstractMenuPage? Run()
     {
         while (true)
         {
+            //Update page context
             var i = Interact();
             switch (i)
             {

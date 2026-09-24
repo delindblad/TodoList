@@ -2,18 +2,19 @@
 using MenuPageKit;
 namespace TodoList;
 
+//Page for exporting to .json file
 public class ExportPage : AbstractMenuPage
 {
-    TodoManager manager;
-    public ExportPage(string title, AbstractMenuPage? parent, TodoManager m) : base(title, parent)
+    readonly TodoManager? _manager;
+    public ExportPage(string title, AbstractMenuPage? parent, TodoManager? m) : base(title, parent)
     {
-        manager = m;
+        _manager = m;
     }
 
     public override void OnLoad()
     {
         Console.Clear();
-        Console.WriteLine("Export - (Esc to cancel)");
+        Console.WriteLine("Export - ('Q' to cancel)");
     }
 
     public override int Interact()
@@ -38,7 +39,7 @@ public class ExportPage : AbstractMenuPage
         
     }
 
-    public override AbstractMenuPage Run()
+    protected override AbstractMenuPage? Run()
     {
         var i = Interact();
         if (i == -1)
@@ -53,7 +54,7 @@ public class ExportPage : AbstractMenuPage
         }
         return this;
     }
-    
+    //Saves to .json file
     void SaveFile(string fileName)
     {
 
@@ -64,7 +65,7 @@ public class ExportPage : AbstractMenuPage
                 fileName = "default.json";
             }
             Utilities.WritelnGreen($"Saving to {fileName}");
-            string jsonString = JsonSerializer.Serialize(manager);
+            string jsonString = JsonSerializer.Serialize(_manager);
             File.WriteAllText(fileName, jsonString);
         }
         catch (Exception e)

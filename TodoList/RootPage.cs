@@ -3,18 +3,19 @@ namespace TodoList;
 using MenuPageKit;
 public class RootPage : AbstractMenuPage
 {
-    private TodoManager _manager;
+    private TodoManager? _manager;
     
-
-    public RootPage(string title, TodoManager manager, AbstractMenuPage parent) : base(title, parent)
+    //Constructor
+    public RootPage(string title, TodoManager? manager, AbstractMenuPage parent) : base(title, parent)
     {
+        //Assign fields and properties
         _manager = manager;
         Parent = parent;
-        //InitManager();
+ 
         
         
     }
-
+    //Add children
     public void AddChildPage(AbstractMenuPage page, string title)
     {
         page.Parent = this;
@@ -23,12 +24,14 @@ public class RootPage : AbstractMenuPage
 
     }
 
-
+    //Runs when the page is loaded
     public override void OnLoad()
     {
 
         base.OnLoad();
-        Console.WriteLine($"{Title} - Select an option:");
+        //Create menu
+        Console.WriteLine($"{Title}");
+        Console.WriteLine("");
         var i = 1;
         foreach (var page in ChildPages)
         {
@@ -36,12 +39,13 @@ public class RootPage : AbstractMenuPage
             i++;
         }
 
-        Console.WriteLine("");
-    }
 
+    }
+    //Handle interaction
     public override int Interact()
     {
-        Console.WriteLine("Select option:");
+        //Get input
+        Console.Write("Select option:");
         var input = Console.ReadKey().KeyChar;
         if (input.ToString().Trim().ToLower() == "q")
         {
@@ -49,53 +53,22 @@ public class RootPage : AbstractMenuPage
         }
         try
         {
+            //If the option is valid, set page context
             var n = int.Parse(input.ToString());
             PageContext = ChildPages[n - 1];
         }
         catch (Exception e)
         {
-            Utilities.WritelnRed(e.ToString());
+            //If the input is invalid, we just run this page again
+            PageContext = this;
         }
 
         return 0;
     }
-
-    public override AbstractMenuPage? Run()
+    //Runs the page
+    protected override AbstractMenuPage? Run()
     {
-        if (Interact() == -1)
-        {
-            return Parent;
-        }
-        return PageContext;
+        return Interact() == -1 ? Parent : PageContext;
     }
-
-    public void InitManager()
-    {
-
-        //See if there's a default.json file
-        try
-        {
-            if (File.Exists("default.json"))
-            {
-                Utilities.WritelnGreen($"Loading from default.json");
-                
-                string jsonString = File.ReadAllText("default.json");
-                //Console.WriteLine(jsonString);
-                _manager = JsonSerializer.Deserialize<TodoManager>(jsonString)!;
-                
-                Thread.Sleep(2000);
-            }
-            //If not create a new one
-            else
-            {
-                _manager = new TodoManager();
-            }
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
+    
 }
