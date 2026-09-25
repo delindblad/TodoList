@@ -11,6 +11,27 @@ public static class Program
 
     static void Main(string[] args)
     {
+        Console.CancelKeyPress += (sender, e) =>
+        {
+            e.Cancel = true; 
+            // Save the data if program is interrupted
+            try
+            {
+                Utilities.WritelnRed("Program interrupted!");
+                Utilities.WritelnGreen($"Saving to default.json");
+                string jsonString = JsonSerializer.Serialize(_manager);
+                //Console.WriteLine(jsonString);
+                File.WriteAllText("default.json", jsonString);
+                Thread.Sleep(2000);
+            }
+            catch (Exception e2)
+            {
+                Console.WriteLine(e2);
+                System.Environment.Exit(0);
+            }
+            System.Environment.Exit(0);
+            
+        };
         
         //Initiate manager
         InitManager();
